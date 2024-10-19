@@ -21,6 +21,12 @@ docker build -t
 docker build -t my-docker-image .  #(.) stands for this directory
 
 docker image   #  to check the image my-docker-container -p 8001:8000 my-docker-image
+docker image build --tag hands-on-4:1.0 .
+docker container run hands-on-4:1.0
+winpty docker container exec --interactive --tty b8d83ae721aa mysql -h localhost -u app -ppass1234 sample
+
+
+docker image ls   or  docker container ls
 
 docker run -d --name my-docker-container -p 8001:8000 my-docker-image
 
@@ -39,10 +45,16 @@ docker
 
 docker ps -a   # to check docker containers
 docker run --name [NAMES] -it [IMAGE] bash
-
+docker image ls
 
 git clone https://github.com/kxk254/django-starter.git
 git config --global --add safe.directory D:/andyjud/django-starter
 git config --global --get-all safe.directory
 
 git remote add origin git@github.com:sammy/my-new-project.git
+
+
+docker container exec `
+  --interactive --tty   `
+  f85f4efb83d7          `
+  mysql -h localhost -u app -ppass1234 sample
