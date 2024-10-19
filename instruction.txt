@@ -1,0 +1,46 @@
+django-admin startproject ecommerce
+
+py -m venv venv
+
+venv\Scripts\activate
+
+pip install --upgrade pip
+pip install -r requirements.txt
+
+pip install pillow
+pip install psycopg2-binary
+
+pip install -r requirements.txt
+
+pytest
+
+docker compose up -d
+docker-compose up --build
+
+docker build -t
+docker build -t my-docker-image .  #(.) stands for this directory
+
+docker image   #  to check the image my-docker-container -p 8001:8000 my-docker-image
+
+docker run -d --name my-docker-container -p 8001:8000 my-docker-image
+
+// create volume -v  source directory .:/app
+docker run -d --name my-docker-container -v .:/app -p 8001:8000 my-docker-image  ##didnt work
+docker run -d --name my-docker-container -v .: -p 8001:8000 my-docker-image
+
+
+docker stop my-docker-container
+docker rm my-docker-container
+
+pip freeze > requirements.txt
+
+
+docker
+
+docker ps -a   # to check docker containers
+docker run --name [NAMES] -it [IMAGE] bash
+
+
+git clone https://github.com/kxk254/django-starter.git
+git config --global --add safe.directory D:/andyjud/django-starter
+git config --global --get-all safe.directory
