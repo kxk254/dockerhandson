@@ -44,3 +44,5 @@ docker run --name [NAMES] -it [IMAGE] bash
 git clone https://github.com/kxk254/django-starter.git
 git config --global --add safe.directory D:/andyjud/django-starter
 git config --global --get-all safe.directory
+
+git remote add origin git@github.com:sammy/my-new-project.git
