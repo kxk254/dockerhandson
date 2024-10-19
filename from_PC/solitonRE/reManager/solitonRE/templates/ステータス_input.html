@@ -1,0 +1,94 @@
+{% extends "main.html" %}
+
+
+{% block content %}
+
+<h6>売上入力画面 | 物件 {{ selected_bukken }}|レポート日 / {{ selected_month }}</h6>
+<form method="POST" action="{% url 'solitonRE:ステータス-input' %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="row">
+        {% for form in formset %}
+        <div class="row">
+            {% for form in formset %}
+                <div class="col-12">
+                    <div class="mb-3">
+                        {{ form.non_field_errors }}
+                        <label for="{{ form.レポート日.id_for_label }}">{{ form.レポート日.label }}</label>
+                        {{ form.レポート日 }}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="{{ form.物件ID.id_for_label }}">{{ form.物件ID.label }}</label>
+                        {{ form.物件ID }}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="{{ form.新テナント.id_for_label }}">{{ form.新テナント.label }}</label>
+                        {{ form.新テナント }}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="{{ form.テナント関連.id_for_label }}">{{ form.テナント関連.label }}</label>
+                        {{ form.テナント関連 }}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="{{ form.遅延状況.id_for_label }}">{{ form.遅延状況.label }}</label>
+                        {{ form.遅延状況 }}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="{{ form.検査情報.id_for_label }}">{{ form.検査情報.label }}</label>
+                        {{ form.検査情報 }}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="{{ form.メンテナンス.id_for_label }}">{{ form.メンテナンス.label }}</label>
+                        {{ form.メンテナンス }}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="{{ form.その他.id_for_label }}">{{ form.その他.label }}</label>
+                        {{ form.その他 }}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="{{ form.特別項目.id_for_label }}">{{ form.特別項目.label }}</label>
+                        {{ form.特別項目 }}
+                    </div>
+                </div>
+                {{ form.id }} <!-- Ensure the hidden 'id' field is rendered -->
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+
+        <input type="hidden" name="bukken" value="{{ selected_bukken }}">
+        <input type="hidden" name="months" value="{{ selected_month }}">
+
+    {% if show_create_button %}
+    <p>{{ message }}</p>
+        {% csrf_token %}
+        <button type="submit" name="create_new_ステータス" class="btn btn-primary">Create New Dataset</button>
+    {% else %}
+            <button type="submit" class="btn btn-success">保存</button>
+            <button type="submit" name="export_csv" class="btn btn-success">Export to CSV</button>
+    {% endif %} 
+    
+</form>  
+
+
+
+
+
+
+{% endblock %}

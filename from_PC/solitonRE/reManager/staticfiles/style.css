@@ -1,0 +1,157 @@
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+   /* Custom styles for the sidebar */
+ .sidebar {
+    height: 100vh;
+    background-color: #f8f9fa;
+    padding: 1rem;
+}
+.sidebar a {
+    display: block;
+    /* padding: 0.5rem 0; */
+    color: #000;
+    text-decoration: none;
+}
+.sidebar a:hover {
+    background-color: #e9ecef;
+    border-radius: 4px;
+}
+
+.sidebar {
+    height: 100vh; /* Full viewport height */
+    position: sticky;
+    top: 0;
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+.container {
+    /* display: flex; */
+    flex-direction: column;
+     /* Adjust based on your needs height: 80vh;*/
+}
+.existing-list, .add-new-row {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 20px; /* Add space between sections */
+}
+.add-new-row {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+.form-row {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+}
+
+#input_field-custom-table td.input-filed-row {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1 !important;
+}
+
+
+.input-filed-row input[type="checkbox"] {
+    cursor: pointer;
+    /* Additional styling as needed */
+}
+
+/* make span and select one line */
+.inline-container {
+    display: flex;
+    align-items: center;
+}
+
+.inline-container span {
+    margin-right: 10px; /* Adjust the spacing between the span and select as needed */
+}
+
+/* make options smaller */
+.form-select {
+    padding: 2px 5px;  /* Adjust padding to make the select smaller */
+    font-size: 14px;   /* Adjust font size */
+    width: 120px; /* Adjust the width to make it shorter */
+}
+
+/* make input scroll  */
+.table-wrapper {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+    position: relative; /* Needed for absolute positioning inside the wrapper */
+}
+
+#input_field-custom-table {
+    border-collapse: collapse;
+    /* table-layout: fixed; */
+}
+
+#input_field-custom-table thead th {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky; /* For other browsers */
+    top: 0;
+    background-color: #f9f9f9;
+    z-index: 2; /* Ensure header is above the content */
+    border-bottom: 2px solid #ddd;
+}
+
+#input_field-custom-table tbody td {
+    border: 1px solid #ddd;
+    padding: 1px;
+}
+
+#input_field-custom-table thead th:first-child, 
+#input_field-custom-table tbody td:first-child {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky; /* For other browsers */
+    left: 0;
+    background-color: #f9f9f9;
+    z-index: 3; /* Ensure the sticky column is above other content */
+}
+
+/* Optional: Adjust header column to align with sticky first column */
+#input_field-custom-table th:first-child {
+    z-index: 4; /* Ensure header column is above other content */
+    border-right: 2px solid #ddd; /* Optional: add a border to match styling */
+}
+
+.comma-separated {
+    text-align: right !important;
+    width: 90px !important; /* Adjust width as needed */
+}
+
+.short-date-input {
+    text-align: right !important;
+    width: 100px !important; /* Adjust width as needed */
+}
+
+.btn {
+    padding: 1px;
+    margin-top: 5px !important;
+    width: 130px;
+}
+
+.button-container button {
+    display: block;
+    margin-bottom: 5px; /* Adjust the spacing between buttons */
+    
+}
+
+.button-container button:last-child {
+    margin-bottom: 0; /* Remove margin for the last button */
+}
+
+hr {
+    margin: 5px;
+}
+
+.table>:not(caption)>*>* {
+    padding: 1px;
+    color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
+    background-color: var(--bs-table-bg, #fff); /* Example background color, adjust as needed */
+}

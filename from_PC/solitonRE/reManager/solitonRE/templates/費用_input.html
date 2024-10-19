@@ -1,0 +1,95 @@
+{% extends "main.html" %}
+
+
+{% block content %}
+
+<h6>売上入力画面 | 物件 {{ selected_bukken }}|レポート日 / {{ selected_month }}</h6>
+<form method="POST" action="{% url 'solitonRE:費用-input' %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="table-wrapper">
+    <table id="input_field-custom-table" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>物件ID</th>
+                <th>レポート日</th>
+                <th>支払先コード</th>
+                <th>管理項目コード</th>
+                <th>当該月開始月</th>
+                <th>当該月終了月</th>
+                <th>請求書発行月</th>
+                <th>請求金額</th>
+                <th>請求消費税</th>
+                <th>請求税金込</th>
+                <th>当月支払日</th>
+                <th>備考</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody id="formset-container">
+            {% for form in formset  %}
+                <tr class="form-row">
+                    
+                    <td class="input-filed-row">{{ form.物件ID }}</td>
+                    <td class="input-filed-row">{{ form.レポート日 }}</td>
+                    <td class="input-filed-row">{{ form.支払先コード }}</td>
+                    <td class="input-filed-row">{{ form.管理項目コード }}</td>
+                    <td class="input-filed-row">{{ form.当該月開始月 }}</td>
+                    <td class="input-filed-row">{{ form.当該月終了月 }}</td>
+                    <td class="input-filed-row">{{ form.請求書発行月 }}</td>
+                    <td class="input-filed-row">{{ form.請求金額 }}</td>
+                    <td class="input-filed-row">{{ form.請求消費税 }}</td>
+                    <td class="input-filed-row">{{ form.請求税金込 }}</td>
+                    <td class="input-filed-row">{{ form.当月支払日 }}</td>
+                    <td class="input-filed-row">{{ form.備考 }}</td>
+                    <td class="input-filed-row">{{ form.DELETE }} </td><!-- This renders the delete checkbox -->
+                    {{ form.id }} <!-- Ensure the hidden 'id' field is rendered -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    {% if show_create_button %}
+    <p>{{ message }}</p>
+        {% csrf_token %}
+        <input type="hidden" name="bukken" value="{{ selected_bukken }}">
+        <input type="hidden" name="months" value="{{ selected_month }}">
+        <button type="submit" name="create_new_dataset" class="btn btn-primary">Create New Dataset</button>
+        <p>bukken_id: {{ selected_bukken }}</p>
+        <p>selected_month: {{ selected_month }}</p>
+    {% else %}
+    <input type="hidden" name="bukken" value="{{ selected_bukken }}">
+    <input type="hidden" name="months" value="{{ selected_month }}">
+    <button type="submit" class="btn btn-success">保存</button>
+    <button type="submit" name="export_csv" class="btn btn-success">Export to CSV</button>
+    <button type="submit" name="tax_calc" class="btn btn-success">税金計算</button>
+    {% endif %}
+
+    
+</form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed');
+
+    // Initialize AutoNumeric for 'deci-separated' inputs
+    new AutoNumeric.multiple('.deci-separated', {
+        digitGroupSeparator: ',',
+        decimalPlaces: 2, // Set to 2 decimal places
+        decimalCharacter: '.',
+        currencySymbol: '',
+    });
+
+    // Initialize AutoNumeric for 'comma-separated' inputs
+    new AutoNumeric.multiple('.comma-separated', {
+        digitGroupSeparator: ',',
+        decimalPlaces: 0, // Set to 2 decimal places
+        decimalCharacter: '.',
+        currencySymbol: '',
+    });
+});
+</script>
+
+{% endblock %}

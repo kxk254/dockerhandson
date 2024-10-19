@@ -1,0 +1,74 @@
+{% extends "main.html" %}
+
+
+{% block content %}
+
+<h6>売上入力画面 | 物件 {{ selected_bukken }}|レポート日 / {{ selected_month }}</h6>
+<form method="POST" action="{% url 'solitonRE:物件-input' %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="table-wrapper">
+    <table id="input_field-custom-table" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>物件名</th>
+                <th>物件住所</th>
+                <th>物件種類</th>
+                <th>建築年月日</th>
+                <th>敷地面積</th>
+                <th>床面積</th>
+                <th>構造</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody id="formset-container">
+            {% for form in formset  %}
+                <tr class="form-row">
+
+                    <td class="input-filed-row">{{ form.物件名 }}</td>
+                    <td class="input-filed-row">{{ form.物件住所 }}</td>
+                    <td class="input-filed-row">{{ form.物件種類 }}</td>
+                    <td class="input-filed-row">{{ form.建築年月日 }}</td>
+                    <td class="input-filed-row">{{ form.敷地面積 }}</td>
+                    <td class="input-filed-row">{{ form.床面積 }}</td>
+                    <td class="input-filed-row">{{ form.構造 }}</td>
+                    <td class="input-filed-row">{{ form.DELETE }} </td><!-- This renders the delete checkbox -->
+                    {{ form.id }} <!-- Ensure the hidden 'id' field is rendered -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">保存</button>
+
+
+    
+</form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed');
+
+    // Initialize AutoNumeric for 'deci-separated' inputs
+    new AutoNumeric.multiple('.deci-separated', {
+        digitGroupSeparator: ',',
+        decimalPlaces: 2, // Set to 2 decimal places
+        decimalCharacter: '.',
+        currencySymbol: '',
+    });
+
+    // Initialize AutoNumeric for 'comma-separated' inputs
+    new AutoNumeric.multiple('.comma-separated', {
+        digitGroupSeparator: ',',
+        decimalPlaces: 0, // Set to 2 decimal places
+        decimalCharacter: '.',
+        currencySymbol: '',
+    });
+});
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<h6>入力フィールド作成画面 | 物件 {{ selected_bukken }}</h6>
+<form method="POST" action="{% url 'solitonRE:input_field_view' %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <table id="input_field-custom-table" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>物件ID</th>
+                <th>テナントID</th>
+                <th>管理項目コード</th>
+                <th>契約ID</th>
+                <th>請求金額</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody id="formset-container">
+            {% for form in formset %}
+                <tr class="form-row">
+                    {{ form.id }} <!-- Ensure the hidden 'id' field is rendered -->
+                    <td class="input-filed-row">{{ form.物件ID }}</td>
+                    <td class="input-filed-row">{{ form.テナントID }}</td>
+                    <td class="input-filed-row">{{ form.管理項目コード }}</td>
+                    <td class="input-filed-row">{{ form.契約ID }}</td>
+                    <td class="input-filed-row">{{ form.請求金額 }}</td>
+                    <td class="input-filed-row">{{ form.DELETE }} </td><!-- This renders the delete checkbox -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% comment %} <button type="button" id="add-row" class="btn btn-primary">Add Row</button> {% endcomment %}
+    <button type="submit" class="btn btn-success">保存</button>
+</form>
+
+
+
+{% endblock %}

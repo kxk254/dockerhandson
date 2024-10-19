@@ -1,0 +1,11 @@
+py -m venv venv
+
+venv\Scripts\activate
+
+pip install -r requirements.txt
+pip install setuptools
+
+pip install pytest-django
+py -m pip install --upgrade pippip
+
+pytest -m model

@@ -1,0 +1,72 @@
+{% extends "main.html" %}
+
+
+{% block content %}
+
+<h6>売上入力画面 | 物件 {{ selected_bukken }}|レポート日 / {{ selected_month }}</h6>
+<form method="POST" action="{% url 'solitonRE:テナント-input' %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="table-wrapper">
+    <table id="input_field-custom-table" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>テナント名</th>
+                <th>テナント短縮名</th>
+                <th>テナント住所</th>
+                <th>テナント電話番号</th>
+                <th>テナント担当者名</th>
+                <th>テナントソート</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody id="formset-container">
+            {% for form in formset  %}
+                <tr class="form-row">
+                    <td class="input-filed-row">{{ form.id }}</td>
+                    <td class="input-filed-row">{{ form.テナント名 }}</td>
+                    <td class="input-filed-row">{{ form.テナント短縮名 }}</td>
+                    <td class="input-filed-row">{{ form.テナント住所 }}</td>
+                    <td class="input-filed-row">{{ form.テナント電話番号 }}</td>
+                    <td class="input-filed-row">{{ form.テナント担当者名 }}</td>
+                    <td class="input-filed-row">{{ form.テナントソート }}</td>
+                    <td class="input-filed-row">{{ form.DELETE }} </td><!-- This renders the delete checkbox -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">保存</button>
+
+
+    
+</form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed');
+
+    // Initialize AutoNumeric for 'deci-separated' inputs
+    new AutoNumeric.multiple('.deci-separated', {
+        digitGroupSeparator: ',',
+        decimalPlaces: 2, // Set to 2 decimal places
+        decimalCharacter: '.',
+        currencySymbol: '',
+    });
+
+    // Initialize AutoNumeric for 'comma-separated' inputs
+    new AutoNumeric.multiple('.comma-separated', {
+        digitGroupSeparator: ',',
+        decimalPlaces: 0, // Set to 2 decimal places
+        decimalCharacter: '.',
+        currencySymbol: '',
+    });
+});
+</script>
+
+
+{% endblock %}

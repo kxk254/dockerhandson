@@ -1,0 +1,78 @@
+{% extends "main.html" %}
+
+{% block content %}
+  <h2 class="mb-4">売上 List</h2>
+  <table class="table table-striped table-bordered">
+    <thead class="thead-light">
+      <tr>
+        {% comment %} <th>ID</th> {% endcomment %}
+        {% comment %} <th>物件ID</th> {% endcomment %}
+        <th>テナントID</th>
+        <th>種類</th> 
+        {% comment %} <th>契約番号</th> {% endcomment %}
+        <th>レポート日</th>
+        <th>該当月開始月</th>
+        <th>該当月終了月</th>
+        <th>請求書発行日</th>
+        <th>請求金額</th>
+        <th>消費税</th>
+        <th>請求税込額</th>
+        <th>当月入金日</th>
+        <th>備考</th>
+
+      </tr>
+    </thead>
+    <tbody>
+
+{% comment %} <pre>{{ subtotals }}</pre> {% endcomment %}
+
+{% for tenant_id, data in tenants_data.items %}
+      {% for item in data.items %}
+        <tr>
+          {% comment %} <td>{{ item.id }}</td> {% endcomment %}
+          {% comment %} <td>{{ item.物件ID }}</td> {% endcomment %}
+          <td>{{ item.テナントID }}</td>
+          <td>{{ item.管理項目コード }}</td> 
+          {% comment %} <td>{{ item.契約番号 }}</td> {% endcomment %}
+          <td>{{ item.レポート日 }}</td>
+          <td>{{ item.該当月開始月 }}</td>
+          <td>{{ item.該当月終了月 }}</td>
+          <td>{{ item.請求書発行日 }}</td>
+          <td>{{ item.請求金額 }}</td>
+          <td>{{ item.請求消費税 }}</td>
+          <td>{{ item.請求税込金額 }}</td>
+          <td>{{ item.当月入金日 }}</td>
+          <td>{{ item.備考 }}</td>
+        </tr>
+        {% endfor %}
+
+        <tr>
+            <td>{{ tenant_id }}</td>
+            <td colspan="5" style="font-weight: bold;">Total</td>
+            <td>{{ data.subtotals.請求金額 }}</td>
+            <td>{{ data.subtotals.請求消費税 }}</td>
+            <td>{{ data.subtotals.請求税込金額 }}</td>
+        </tr>
+{% endfor %}
+      
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="6" style="font-weight: bold;">Total</td>
+        <td style="font-weight: bold;">{{ grand_totals.total_請求金額 }}</td>
+        <td style="font-weight: bold;">{{ grand_totals.total_請求消費税 }}</td>
+        <td style="font-weight: bold;">{{ grand_totals.total_請求税込金額 }}</td>
+        <td></td>  <!-- Adjust colspan as necessary -->
+      </tr>
+    </tfoot>
+  </table>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" name="export_csv" class="btn btn-success">Export to CSV</button>
+    <!-- Other buttons and form elements -->
+  </form>
+
+{% endblock %}        
+
+

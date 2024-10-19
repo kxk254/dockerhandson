@@ -1,0 +1,91 @@
+{% extends "main.html" %}
+
+
+{% block content %}
+
+<h6>売上入力画面 | 物件 {{ selected_bukken }}|レポート日 / {{ selected_month }}</h6>
+<form method="POST" action="{% url 'solitonRE:敷金保証金-input' %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="table-wrapper">
+    <table id="input_field-custom-table" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>契約番号</th>
+                <th>物件ID</th>
+                <th>テナントID</th>
+                <th>契約区画</th>
+                <th>定借区分</th>
+                <th>種類</th>
+                <th>前月末残高</th>
+                <th>当月増額</th>
+                <th>当月減少</th>
+                <th>今月末残高</th>
+                <th>移動予定日</th>
+                <th>保証会社コード</th>
+                <th>備考</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody id="formset-container">
+            {% for form in formset  %}
+                <tr class="form-row">
+
+                    <td class="input-filed-row">{{ form.契約番号 }}</td>
+                    <td class="input-filed-row">{{ form.物件ID }}</td>
+                    <td class="input-filed-row">{{ form.テナントID }}</td>
+                    <td class="input-filed-row">{{ form.契約区画 }}</td>
+                    <td class="input-filed-row">{{ form.定借区分 }}</td>
+                    <td class="input-filed-row">{{ form.種類 }}</td>
+                    <td class="input-filed-row">{{ form.前月末残高 }}</td>
+                    <td class="input-filed-row">{{ form.当月増額 }}</td>
+                    <td class="input-filed-row">{{ form.当月減少 }}</td>
+                    <td class="input-filed-row">{{ form.今月末残高 }}</td>
+                    <td class="input-filed-row">{{ form.移動予定日 }}</td>
+                    <td class="input-filed-row">{{ form.保証会社コード }}</td>
+                    <td class="input-filed-row">{{ form.備考 }}</td>
+                    <td class="input-filed-row">{{ form.DELETE }} </td><!-- This renders the delete checkbox -->
+                    {{ form.id }} <!-- Ensure the hidden 'id' field is rendered -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">保存</button>
+    <button type="submit" name="export_csv" class="btn btn-success">Export to CSV</button>
+    
+</form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var inputs = document.querySelectorAll('.comma-separated');
+
+        if (inputs.length === 0) {
+            console.log('No inputs found with class "comma-separated"');
+        } else {
+            inputs.forEach(function(input) {
+                console.log('Found input:', input); // Debugging log
+                input.addEventListener('input', function() {
+                    var value = this.value.replace(/,/g, ''); // Remove existing commas
+                    if (!isNaN(value) && value !== '') {
+                        this.value = Number(value).toLocaleString(); // Add commas
+                    }
+                });
+            });
+        }
+    });
+
+    
+    new AutoNumeric('.comma-separated', {
+        digitGroupSeparator: ',',
+        decimalPlaces: 0, // Adjust this as needed
+        decimalCharacter: '.',
+        currencySymbol: '',
+    });
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'reset.css' %}">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.6.0/autoNumeric.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <title>Soliton RE System</title>
+</head>
+<body>
+
+    <div  class="container-fluid">
+        <div  class="row">
+
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+
+                <h2 class="mb-3"><a href="{% url 'solitonRE:main' %}"><i class="bi bi-buildings"></i> Main Menu</a></h2>
+
+                <!-- リスト作成 -->
+
+                <!-- データ入力 -->
+                <form id="data-form" method="GET" action="{% url 'solitonRE:console' %}">
+                    <label>物件</label>
+                    <select class="form-select ms-2" aria-label="Default select example" name="bukken">
+                        {% for bukken in bukkens %}
+                            <option value="{{ bukken.id }}" {% if bukken.id|stringformat:"s" == selected_bukken %}selected{% endif %}>
+                                {{ bukken.物件名 }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <label>年月</label>
+                    <select class="form-select ms-2" aria-label="Default select example" name="months">
+                        {% for month in months %}
+                            <option value="{{ month.MonthSelect|date:'F j, Y' }}" {% if month.MonthSelect|date:'F j, Y' == selected_month %}selected{% endif %}>
+                                {{ month.MonthSelect|date:'F j, Y' }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <div class="button-container">
+                    <button type="submit" name="action" value="売上リスト" class="btn btn-outline-primary mt-3">
+                        <i class="bi bi-backspace-reverse ms-1 me-2"></i>売上リスト
+                    </button>
+                    <button type="submit" name="action" value="売上入力" class="btn btn-outline-primary mt-3">
+                        <i class="bi bi-backspace-reverse ms-1 me-2"></i>売上入力
+                    </button>
+                    <button type="submit" name="action" value="ステータス" class="btn btn-outline-primary mt-3">
+                        <i class="bi bi-backspace-reverse ms-1 me-2"></i>ステータス
+                    </button>
+                    <button type="submit" name="action" value="費用" class="btn btn-outline-primary mt-3">
+                        <i class="bi bi-backspace-reverse ms-1 me-2"></i>費用入力
+                    </button>
+                    <button type="submit" name="action" value="BM報告" class="btn btn-outline-primary mt-3">
+                        <i class="bi bi-backspace-reverse ms-1 me-2"></i>BM報告
+                    </button>
+                    </div>
+                    <hr style="margin-top: 10px;">
+                    <p style="margin-bottom: 1px; font-size: 14px;">以下の入力は物件のみの選択</p>
+                    <div class="button-container">
+                    <button type="submit" name="action" value="入力項目" class="btn btn-outline-primary mt-3">
+                        <i class="bi bi-backspace-reverse ms-1 me-2"></i>入力項目
+                    </button>
+                    <button type="submit" name="action" value="契約項目" class="btn btn-outline-primary mt-3">
+                        <i class="bi bi-backspace-reverse ms-1 me-2"></i>契約項目
+                    </button>
+                    <button type="submit" name="action" value="敷金保証金項目" class="btn btn-outline-primary mt-3">
+                        <i class="bi bi-backspace-reverse ms-1 me-2"></i>敷金保証
+                    </button>
+                    <button type="submit" name="action" value="BM入力" class="btn btn-outline-primary mt-3">
+                        <i class="bi bi-backspace-reverse ms-1 me-2"></i>BM入力
+                    </button>
+                    </div>
+
+
+                </form>
+
+                
+                <!-- Navbar brand -->
+                <div class="dropdown mt-3">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      その他設定
+                    </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'solitonRE:物件-input'  %}"><i class="bi bi-pencil ms-2 me-2"></i>物件設定</a></li>
+                            <li><a class="dropdown-item" href="{% url 'solitonRE:テナント-input'  %}"><i class="bi bi-pencil ms-2 me-2"></i>テナント設定</a></li>
+                            <li><a class="dropdown-item" href="{% url 'solitonRE:管理項目-input' %}"><i class="bi bi-pencil ms-2 me-2"></i>管理項目設定</a></li>
+                            <li><a class="dropdown-item" href="{% url 'solitonRE:保証会社-input' %}"><i class="bi bi-pencil ms-2 me-2"></i>保証会社設定</a></li>
+                            <li><a class="dropdown-item" href="{% url 'solitonRE:支払先-input' %}"><i class="bi bi-pencil ms-2 me-2"></i>支払先設定</a></li>
+                            <li><a class="dropdown-item" href="{% url 'solitonRE:bm_item_field_view' %}"><i class="bi bi-pencil ms-2 me-2"></i>BM項目設定</a></li>
+                        </ul>
+                  </div>
+
+                  <form action="{% url 'solitonRE:backup_database' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary mt-3">
+                        <i class="bi bi-backspace-reverse ms-1 me-2"></i>バックアップ
+                    </button>
+                </form>
+
+
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 col-lg-10 ms-sm-auto px-md-4">
+                {% block content %}
+                <!-- Default content if any -->
+                {% endblock %}
+            </main>
+        </div>
+    </div>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateLinks() {
+                var bukken = document.getElementById('bukken-select').value;
+                var months = document.getElementById('months-select').value;
+                document.getElementById('link-sell-list').href = "{% url 'solitonRE:売上-list' %}?bukken=" + encodeURIComponent(bukken) + "&months=" + encodeURIComponent(months);
+                document.getElementById('link-sell-input').href = "{% url 'solitonRE:売上-input' %}?bukken=" + encodeURIComponent(bukken) + "&months=" + encodeURIComponent(months);
+                document.getElementById('link-status').href = "{% url 'solitonRE:ステータス-input' %}?bukken=" + encodeURIComponent(bukken) + "&months=" + encodeURIComponent(months);
+                document.getElementById('link-input-field').href = "{% url 'solitonRE:input_field_view' %}?bukken=" + encodeURIComponent(bukken);
+                document.getElementById('link-contract').href = "{% url 'solitonRE:契約-input' %}?bukken=" + encodeURIComponent(bukken);
+                document.getElementById('link-deposit').href = "{% url 'solitonRE:敷金保証金-input' %}?bukken=" + encodeURIComponent(bukken);
+            }
+    
+            document.getElementById('bukken-select').addEventListener('change', updateLinks);
+            document.getElementById('months-select').addEventListener('change', updateLinks);
+    
+            updateLinks(); // Initialize links on page load
+        });
+    </script>
+</body>
+</html>

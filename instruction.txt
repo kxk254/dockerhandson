@@ -58,3 +58,31 @@ docker container exec `
   --interactive --tty   `
   f85f4efb83d7          `
   mysql -h localhost -u app -ppass1234 sample
+
+
+  CREATE IMAGE
+  docker pull mysql
+
+  check if created
+   docker images
+   docker ps
+
+  create the container
+
+  docker run --name [supu-mysql] -p [13306:3306] -e [MYSQL_ROOT_PASSWORD=ppass1234] -d mysql  [:version] 
+
+  run the container
+  docker exec -it supu-mysql bash
+  mysql -u root -p
+
+ ドッカ―ファイルからビルドするときは  docker build
+ docker build -t supu-python:1.0 -f Dockerfile .
+
+ イメージ実行
+ docker run --name supu-server -it -d supu-python:1.0
+
+ コンテナ内に入る
+ docker exec -it supu-server bash
+
+ pwd  今の場所を見る
+ echo $SITE_DOMAIN  サイトドメインの環境変数

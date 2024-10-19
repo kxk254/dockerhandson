@@ -1,0 +1,64 @@
+{% extends "main.html" %}
+
+
+{% block content %}
+
+<h6>売上入力画面 | 物件 {{ selected_bukken }}|レポート日 / {{ selected_month }}</h6>
+<form method="POST" action="{% url 'solitonRE:ステータス-input' %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="table-wrapper">
+    <table id="input_field-custom-table" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>レポート日</th>
+                <th>物件ID</th>
+                <th>新テナント</th>
+                <th>テナント関連</th>
+                <th>遅延状況</th>
+                <th>検査情報</th>
+                <th>メンテナンス</th>
+                <th>その他</th>
+                <th>特別項目</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody id="formset-container">
+            {% for form in formset  %}
+                <tr class="form-row">
+                    <td class="input-filed-row">{{ form.レポート日 }}</td>
+                    <td class="input-filed-row">{{ form.物件ID }}</td>
+                    <td class="input-filed-row">{{ form.新テナント }}</td>
+                    <td class="input-filed-row">{{ form.テナント関連 }}</td>
+                    <td class="input-filed-row">{{ form.遅延状況 }}</td>
+                    <td class="input-filed-row">{{ form.検査情報 }}</td>
+                    <td class="input-filed-row">{{ form.メンテナンス }}</td>
+                    <td class="input-filed-row">{{ form.その他 }}</td>
+                    <td class="input-filed-row">{{ form.特別項目 }}</td>
+                    <td class="input-filed-row">{{ form.DELETE }} </td><!-- This renders the delete checkbox -->
+                    {{ form.id }} <!-- Ensure the hidden 'id' field is rendered -->
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+        <input type="hidden" name="bukken" value="{{ selected_bukken }}">
+        <input type="hidden" name="months" value="{{ selected_month }}">
+
+    {% if show_create_button %}
+    <p>{{ message }}</p>
+        {% csrf_token %}
+        <button type="submit" name="create_new_ステータス" class="btn btn-primary">Create New Dataset</button>
+    {% else %}
+            <button type="submit" class="btn btn-success">保存</button>
+    {% endif %} 
+    
+</form>  
+
+
+
+
+
+{% endblock %}

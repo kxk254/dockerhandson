@@ -1,0 +1,70 @@
+{% extends "main.html" %}
+
+
+{% block content %}
+
+<h6>売上入力画面 | 物件 {{ selected_bukken }}|レポート日 / {{ selected_month }}</h6>
+<form method="POST" action="{% url 'solitonRE:保証会社-input' %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="table-wrapper">
+    <table id="input_field-custom-table" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>保証会社コード</th>
+                <th>保証会社名</th>
+                <th>保証会社住所</th>
+                <th>保証会社担当者名</th>
+                <th>保証会社連絡先</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody id="formset-container">
+            {% for form in formset  %}
+                <tr class="form-row">
+
+                    <td class="input-filed-row">{{ form.保証会社コード }}</td>
+                    <td class="input-filed-row">{{ form.保証会社名 }}</td>
+                    <td class="input-filed-row">{{ form.保証会社住所 }}</td>
+                    <td class="input-filed-row">{{ form.保証会社担当者名 }}</td>
+                    <td class="input-filed-row">{{ form.保証会社連絡先 }}</td>
+                    <td class="input-filed-row">{{ form.DELETE }} </td><!-- This renders the delete checkbox -->
+                    {{ form.id }} <!-- Ensure the hidden 'id' field is rendered -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">保存</button>
+
+
+    
+</form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed');
+
+    // Initialize AutoNumeric for 'deci-separated' inputs
+    new AutoNumeric.multiple('.deci-separated', {
+        digitGroupSeparator: ',',
+        decimalPlaces: 2, // Set to 2 decimal places
+        decimalCharacter: '.',
+        currencySymbol: '',
+    });
+
+    // Initialize AutoNumeric for 'comma-separated' inputs
+    new AutoNumeric.multiple('.comma-separated', {
+        digitGroupSeparator: ',',
+        decimalPlaces: 0, // Set to 2 decimal places
+        decimalCharacter: '.',
+        currencySymbol: '',
+    });
+});
+</script>
+
+
+{% endblock %}

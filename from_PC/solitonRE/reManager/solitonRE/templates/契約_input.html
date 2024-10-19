@@ -1,0 +1,118 @@
+{% extends "main.html" %}
+
+
+{% block content %}
+
+<h6>売上入力画面 | 物件 {{ selected_bukken }}|レポート日 / {{ selected_month }}</h6>
+<form method="POST" action="{% url 'solitonRE:契約-input' %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="table-wrapper">
+    <table id="input_field-custom-table" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>テナントID</th>
+                <th>契約ID</th>
+                <th>物件ID</th>
+                <th>部屋番号</th>
+                <th>契約日</th>
+                <th>当初開始日</th>
+                <th>当初終了日</th>
+                <th>現在契約開始日</th>
+                <th>現在契約終了日</th>
+                <th>賃料金額</th>
+                <th>共益費</th>
+                <th>契約種類</th>
+                <th>自動更新</th>
+                <th>契約年数</th>
+                <th>更新料有無</th>
+                <th>更新料金額</th>
+                <th>解約通知期間</th>
+                <th>居室タイプ</th>
+                <th>平米数</th>
+                <th>坪数</th>
+                <th>保証金金額</th>
+                <th>保証金月数</th>
+                <th>保証有無</th>
+                <th>保証会社コード</th>
+                <th>フリーレント</th>
+                <th>備考</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody id="formset-container">
+            {% for form in formset  %}
+                <tr class="form-row">
+                    <td class="input-filed-row">{{ form.テナントID }}</td>
+                    <td class="input-filed-row">{{ form.契約ID }}</td>
+                    <td class="input-filed-row">{{ form.物件ID }}</td>
+                    <td class="input-filed-row">{{ form.部屋番号 }}</td>
+                    <td class="input-filed-row">{{ form.契約日 }}</td>
+                    <td class="input-filed-row">{{ form.当初開始日 }}</td>
+                    <td class="input-filed-row">{{ form.当初終了日 }}</td>
+                    <td class="input-filed-row">{{ form.現在契約開始日 }}</td>
+                    <td class="input-filed-row">{{ form.現在契約終了日 }}</td>
+                    <td class="input-filed-row">{{ form.賃料金額 }}</td>
+                    <td class="input-filed-row">{{ form.共益費 }}</td>
+                    <td class="input-filed-row">{{ form.契約種類 }}</td>
+                    <td class="input-filed-row">{{ form.自動更新 }}</td>
+                    <td class="input-filed-row">{{ form.契約年数 }}</td>
+                    <td class="input-filed-row">{{ form.更新料有無 }}</td>
+                    <td class="input-filed-row">{{ form.更新料金額 }}</td>
+                    <td class="input-filed-row">{{ form.解約通知期間 }}</td>
+                    <td class="input-filed-row">{{ form.居室タイプ }}</td>
+                    <td class="input-filed-row">{{ form.平米数 }}</td>
+                    <td class="input-filed-row">{{ form.坪数 }}</td>
+                    <td class="input-filed-row">{{ form.保証金金額 }}</td>
+                    <td class="input-filed-row">{{ form.保証金月数 }}</td>
+                    <td class="input-filed-row">{{ form.保証有無 }}</td>
+                    <td class="input-filed-row">{{ form.保証会社コード }}</td>
+                    <td class="input-filed-row">{{ form.フリーレント }}</td>
+                    <td class="input-filed-row">{{ form.備考 }}</td>
+                    <td class="input-filed-row">{{ form.DELETE }} </td><!-- This renders the delete checkbox -->
+                    {{ form.id }} <!-- Ensure the hidden 'id' field is rendered -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">保存</button>
+    <button type="submit" name="export_csv" class="btn btn-success">Export to CSV</button>
+
+
+    
+</form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var inputs = document.querySelectorAll('.comma-separated');
+
+        if (inputs.length === 0) {
+            console.log('No inputs found with class "comma-separated"');
+        } else {
+            inputs.forEach(function(input) {
+                console.log('Found input:', input); // Debugging log
+                input.addEventListener('input', function() {
+                    var value = this.value.replace(/,/g, ''); // Remove existing commas
+                    if (!isNaN(value) && value !== '') {
+                        this.value = Number(value).toLocaleString(); // Add commas
+                    }
+                });
+            });
+        }
+    });
+
+    
+    new AutoNumeric('.comma-separated', {
+        digitGroupSeparator: ',',
+        decimalPlaces: 0, // Adjust this as needed
+        decimalCharacter: '.',
+        currencySymbol: '',
+    });
+</script>
+
+
+{% endblock %}

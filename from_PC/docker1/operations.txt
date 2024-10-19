@@ -1,0 +1,39 @@
+https://github.com/alamorre/django-docker
+
+
+
+py -m django startproject server .
+
+py -m venv my-venv
+
+python.exe -m pip install --upgrade pip
+
+my-venv\Scripts\activate
+
+pip install django gunicorn psycopg2-binary
+
+pip freeze > requirements.txt
+
+
+Copy setting.py into local.py unser server>settings>
+delete setting.py
+
+copy Dockerfile  make sure use python version
+
+
+
+docker build -t django-docker:latest .
+
+
+docker run -p 8000:8080 `
+--env PIPELINE=production `
+--env SECRET_KEY=your_value `
+--env DB_NAME=. `
+--env DB_USER_NM=. `
+--env DB_USER_PW=. `
+--env DB_IP=0.0.0.0 `
+--env DB_PORT=5432 `
+django-docker
+
+
+http://localhost:8000/admin

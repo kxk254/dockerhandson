@@ -1,0 +1,94 @@
+{% extends "main.html" %}
+
+
+{% block content %}
+
+<h6>売上入力画面 | 物件 {{ selected_bukken }}|レポート日 / {{ selected_month }}</h6>
+<form method="POST" action="{% url 'solitonRE:bm_view' %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="table-wrapper">
+    <table id="input_field-custom-table" class="table table-bordered">
+        <thead>
+            <tr>
+
+                <th>物件ID</th>
+                <th>レポート日</th>
+                <th>BM項目</th>
+                <th>BM回数</th>
+                <th>BM予定数</th>
+                <th>BM予定</th>
+                <th>BM実施</th>
+                <th>BMコメント</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody id="formset-container" class="alert {% if formset.non_form_errors %}alert-danger{% endif %}">
+            {% for form in formset  %}
+                <tr class="form-row">
+                    
+                    <td class="input-filed-row">{{ form.物件ID }}</td>
+                    <td class="input-filed-row">{{ form.レポート日 }}</td>
+                    <td class="input-filed-row">{{ form.BM項目 }}</td>
+                    <td class="input-filed-row">{{ form.BM回数 }}</td>
+                    <td class="input-filed-row">{{ form.BM予定数 }}</td>
+                    <td class="input-filed-row">{{ form.BM予定 }}</td>
+                    <td class="input-filed-row">{{ form.BM実施 }}</td>
+                    <td class="input-filed-row">{{ form.BMコメント }}</td>
+                    <td class="input-filed-row">{{ form.DELETE }} </td><!-- This renders the delete checkbox -->
+                    {{ form.id }} <!-- Ensure the hidden 'id' field is rendered -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    {% if show_create_button %}
+    <p>{{ message }}</p>
+        <input type="hidden" name="bukken" value="{{ selected_bukken }}">
+        <input type="hidden" name="months" value="{{ selected_month }}">
+        <button type="submit" name="create_new_dataset" class="btn btn-primary">Create New Dataset</button>
+        <p>bukken_id: {{ selected_bukken }}</p>
+        <p>selected_month: {{ selected_month }}</p>
+    {% else %}
+    <input type="hidden" name="bukken" value="{{ selected_bukken }}">
+    <input type="hidden" name="months" value="{{ selected_month }}">
+    <button type="submit" class="btn btn-success">保存</button>
+    <p>bukken_id: {{ selected_bukken }}</p>
+        <p>selected_month: {{ selected_month }}</p>
+    {% endif %}
+    {% comment %} <button type="button" id="add-row" class="btn btn-primary">Add Row</button> {% endcomment %}
+    
+</form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var inputs = document.querySelectorAll('.comma-separated');
+
+        if (inputs.length === 0) {
+            console.log('No inputs found with class "comma-separated"');
+        } else {
+            inputs.forEach(function(input) {
+                console.log('Found input:', input); // Debugging log
+                input.addEventListener('input', function() {
+                    var value = this.value.replace(/,/g, ''); // Remove existing commas
+                    if (!isNaN(value) && value !== '') {
+                        this.value = Number(value).toLocaleString(); // Add commas
+                    }
+                });
+            });
+        }
+    });
+
+    
+    new AutoNumeric('.comma-separated', {
+        digitGroupSeparator: ',',
+        decimalPlaces: 0, // Adjust this as needed
+        decimalCharacter: '.',
+        currencySymbol: '',
+    });
+</script>
+
+
+{% endblock %}
